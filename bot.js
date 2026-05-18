@@ -7,7 +7,7 @@ const config = {
     port: parseInt(process.env.SERVER_PORT) || 25565,
     username: process.env.BOT_USERNAME,
     auth: 'offline',
-    version: false,
+    version: process.env.MC_VERSION || '1.21.1',  // ← Uses your server's version
     hideErrors: false
 };
 
@@ -27,7 +27,7 @@ function createBot() {
         process.exit(1);
     }
 
-    log(`Connecting to ${config.host}... (Attempt ${reconnectCount + 1})`);
+    log(`Connecting to ${config.host} (version ${config.version})... (Attempt ${reconnectCount + 1})`);
 
     try {
         bot = mineflayer.createBot(config);
