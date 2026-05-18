@@ -3,8 +3,14 @@ name: Minecraft AFK Bot
 on:
   schedule:
     - cron: '0 */5 * * *'
-
   workflow_dispatch:
+
+# 🔒 THIS IS THE FIX
+# Only allows ONE run of this workflow at a time
+# Cancels any in-progress run when a new one starts
+concurrency:
+  group: minecraft-afk-bot-main
+  cancel-in-progress: true
 
 jobs:
   run-bot:
