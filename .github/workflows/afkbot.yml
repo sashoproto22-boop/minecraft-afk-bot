@@ -1,38 +1,33 @@
 name: Minecraft AFK Bot
 
 on:
-  # Runs automatically on a schedule
   schedule:
-    - cron: '0 */5 * * *'   # Restarts every 5 hours
+    - cron: '0 */5 * * *'
 
-  # Lets you start it manually from GitHub website anytime
   workflow_dispatch:
 
 jobs:
   run-bot:
     name: Run AFK Bot
     runs-on: ubuntu-latest
-    timeout-minutes: 290    # Runs for ~4.8 hours then stops and restarts
+    timeout-minutes: 290
 
     steps:
-      # Step 1: Download your code
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Install Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      # Step 3: Install bot dependencies
       - name: Install Dependencies
         run: npm install
 
-      # Step 4: Run the bot
       - name: Start AFK Bot
         env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
           BOT_USERNAME: ${{ secrets.BOT_USERNAME }}
+          MC_VERSION: ${{ secrets.MC_VERSION }}
         run: node bot.js
