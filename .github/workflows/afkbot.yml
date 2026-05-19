@@ -1,37 +1,25 @@
+# This is what you ALREADY have
 name: Minecraft AFK Bot
-
 on:
   schedule:
     - cron: '0 */5 * * *'
   workflow_dispatch:
 
-# 🔒 THIS IS THE FIX
-# Only allows ONE run of this workflow at a time
-# Cancels any in-progress run when a new one starts
 concurrency:
   group: minecraft-afk-bot-main
   cancel-in-progress: true
 
 jobs:
   run-bot:
-    name: Run AFK Bot
     runs-on: ubuntu-latest
     timeout-minutes: 290
-
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Start AFK Bot
-        env:
+      - run: npm install
+      - env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
           BOT_USERNAME: ${{ secrets.BOT_USERNAME }}
